@@ -13,13 +13,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.spring.files.springbootfileassignment.exception.CustomFileException;
 import com.spring.files.springbootfileassignment.message.ResponseMessage;
 import com.spring.files.springbootfileassignment.model.FileInfo;
 import com.spring.files.springbootfileassignment.service.FilesStorageService;
-import com.spring.files.springbootfileassignment.utils.ErrorMessage;
 import com.spring.files.springbootfileassignment.validation.FileUploadValidator;
 
+/**
+ * Rest controller for file operations
+ */
 @RestController
 @RequestMapping("/files")
 public class FileController {
@@ -31,6 +32,13 @@ public class FileController {
 
 	@Autowired
 	FileUploadValidator fileUploadValidator;
+	
+	/**
+	 * uploadFile method is for uploading the plain text file.
+	 * @param file
+	 * @return
+	 * @throws Exception
+	 */
 
 	@PostMapping("/upload")
 	public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) throws Exception {
@@ -44,6 +52,11 @@ public class FileController {
 		return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
 	}
 
+	/**
+	 * findRecordById method is to find record by primary key
+	 * @param primaryKey
+	 * @return
+	 */
 	@GetMapping("/findRecordById/{primaryKey}")
 	@ResponseBody
 	public ResponseEntity<FileInfo> findRecordById(@PathVariable String primaryKey) {
@@ -51,6 +64,11 @@ public class FileController {
 		return ResponseEntity.status(HttpStatus.OK).body(fileInfo);
 	}
 
+	/**
+	 * deleteRecordById method is for deleting the record by primary key
+	 * @param primaryKey
+	 * @return
+	 */
 	@DeleteMapping("/deleteRecordById/{primaryKey}")
 	@ResponseBody
 	public ResponseEntity<ResponseMessage> deleteRecordById(@PathVariable String primaryKey) {

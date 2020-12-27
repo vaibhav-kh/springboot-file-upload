@@ -16,6 +16,14 @@ import com.spring.files.springbootfileassignment.model.FileInfo;
 import com.spring.files.springbootfileassignment.repository.FileRepository;
 import com.spring.files.springbootfileassignment.utils.ErrorMessage;
 
+/**
+ * FilesStorageServiceImpl class is perform file operation with interaction with
+ * JPA repository
+ * 
+ * @author vaibhav-kh
+ *
+ */
+
 @Service
 public class FilesStorageServiceImpl implements FilesStorageService {
 
@@ -24,7 +32,7 @@ public class FilesStorageServiceImpl implements FilesStorageService {
 
 	@Override
 	public void save(MultipartFile file) throws IOException {
-		try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()));){
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()));) {
 			FileInfo fileInfo = null;
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
@@ -37,7 +45,7 @@ public class FilesStorageServiceImpl implements FilesStorageService {
 					fileRepository.save(fileInfo);
 				}
 			}
-		} 
+		}
 	}
 
 	@Override
@@ -59,6 +67,6 @@ public class FilesStorageServiceImpl implements FilesStorageService {
 		} catch (Exception ex) {
 			throw new CustomFileException(ex.getMessage());
 		}
-		
+
 	}
 }
