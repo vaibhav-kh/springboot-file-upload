@@ -32,7 +32,7 @@ public class FileStorageServiceImplTest {
 		
 	private FileInfo buildFileInfoData(String id, String name, String description, String updatedTimeStamp) {
 		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		
 		FileInfo fileInfo = new FileInfo();
 		fileInfo.setId(id);
@@ -46,7 +46,7 @@ public class FileStorageServiceImplTest {
 	@Test(expected=CustomFileException.class)
 	public void findByIdTest_Exception() {
 		String primaryKey = "Testing";
-		FileInfo fileInfo = buildFileInfoData("rest", "name", "description", "2020-12-10 23:22");
+		FileInfo fileInfo = buildFileInfoData("rest", "name", "description", "2020-12-10 23:22:12");
 		when(fileRepository.findById("Testing")).thenThrow(CustomFileException.class);
 		filesStorageService.findById(primaryKey);
 	}
@@ -54,7 +54,7 @@ public class FileStorageServiceImplTest {
 	@Test
 	public void findByIdTest_Success() {
 		String primaryKey = "rest";
-		FileInfo fileInfo = buildFileInfoData("rest", "name", "description", "2020-12-10 23:22");
+		FileInfo fileInfo = buildFileInfoData("rest", "name", "description", "2020-12-10 23:22:15");
 		when(fileRepository.findById("rest")).thenReturn(Optional.of(fileInfo));
 		
 		FileInfo info = filesStorageService.findById(primaryKey);

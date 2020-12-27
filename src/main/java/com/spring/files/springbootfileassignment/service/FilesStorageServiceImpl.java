@@ -34,7 +34,7 @@ public class FilesStorageServiceImpl implements FilesStorageService {
 	public void save(MultipartFile file) throws IOException {
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()));) {
 			FileInfo fileInfo = null;
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
 			String line = reader.readLine();
 			while (line != null) {
