@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -55,7 +56,7 @@ public class FilesStorageServiceImpl implements FilesStorageService {
 		if (optional.isPresent()) {
 			fileObj = optional.get();
 		} else {
-			throw new CustomFileException(ErrorMessage.PRIMARY_KEY_NOT_FOUND);
+			throw new CustomFileException(HttpStatus.FORBIDDEN, ErrorMessage.PRIMARY_KEY_NOT_FOUND);
 		}
 		return fileObj;
 	}
@@ -65,7 +66,7 @@ public class FilesStorageServiceImpl implements FilesStorageService {
 		try {
 			fileRepository.deleteById(primaryKey);
 		} catch (Exception ex) {
-			throw new CustomFileException(ex.getMessage());
+			throw new CustomFileException(HttpStatus.BAD_REQUEST, ex.getMessage());
 		}
 
 	}

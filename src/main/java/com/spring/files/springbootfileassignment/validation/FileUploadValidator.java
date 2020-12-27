@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,11 +34,11 @@ public class FileUploadValidator {
 
 		if (file.isEmpty()) {
 			hasError = true;
-			throw new CustomFileException(ErrorMessage.EMPTY_FILE);
+			throw new CustomFileException(HttpStatus.NO_CONTENT, ErrorMessage.EMPTY_FILE);
 		}
 		if (!FILE_TYPE.equalsIgnoreCase(file.getContentType())) {
 			hasError = true;
-			throw new CustomFileException(ErrorMessage.INVALID_FORMAT);
+			throw new CustomFileException(HttpStatus.UNPROCESSABLE_ENTITY, ErrorMessage.INVALID_FORMAT);
 		} else {
 			validateFileContent(file);
 		}
@@ -60,18 +61,18 @@ public class FileUploadValidator {
 						String[] data = line.split(",");
 						if (data.length != HEADER.values().length) {
 							hasError = true;
-							throw new CustomFileException(ErrorMessage.INCOMPLETE_RECORD);
+							throw new CustomFileException(HttpStatus.UNPROCESSABLE_ENTITY, ErrorMessage.INCOMPLETE_RECORD);
 						} else {
 							if (StringUtils.isEmpty(data[0])) {
 								hasError = true;
-								throw new CustomFileException(ErrorMessage.BLANK_PRIMARY_KEY);
+								throw new CustomFileException(HttpStatus.UNPROCESSABLE_ENTITY, ErrorMessage.BLANK_PRIMARY_KEY);
 							}
 						}
 					}
 				}
 			} else {
 				hasError = true;
-				throw new CustomFileException(ErrorMessage.MISSING_HEADER);
+				throw new CustomFileException(HttpStatus.UNPROCESSABLE_ENTITY, ErrorMessage.MISSING_HEADER);
 			}
 
 		}

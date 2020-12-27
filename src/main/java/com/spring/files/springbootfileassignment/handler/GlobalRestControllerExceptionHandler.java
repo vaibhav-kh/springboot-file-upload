@@ -23,7 +23,7 @@ public class GlobalRestControllerExceptionHandler {
 	@ResponseStatus(value=HttpStatus.BAD_REQUEST)
 	@ResponseBody
 	public ErrorData handleRuntimeError(CustomFileException ex) {
-		return new ErrorData(HttpStatus.BAD_REQUEST.toString(), ex.getMessage(),
+		return new ErrorData(ex.getHttpStatus().toString(), ex.getMessage(),
 				LocalDateTime.now().format(DATE_TIME_FORMATTER));
 	}
 }

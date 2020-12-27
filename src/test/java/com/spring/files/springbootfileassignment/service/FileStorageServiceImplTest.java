@@ -46,7 +46,6 @@ public class FileStorageServiceImplTest {
 	@Test(expected=CustomFileException.class)
 	public void findByIdTest_Exception() {
 		String primaryKey = "Testing";
-		FileInfo fileInfo = buildFileInfoData("rest", "name", "description", "2020-12-10 23:22:12");
 		when(fileRepository.findById("Testing")).thenThrow(CustomFileException.class);
 		filesStorageService.findById(primaryKey);
 	}
