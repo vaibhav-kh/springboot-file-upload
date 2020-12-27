@@ -48,9 +48,6 @@ public class FileController {
 	@ResponseBody
 	public ResponseEntity<FileInfo> findRecordById(@PathVariable String primaryKey) {
 		FileInfo fileInfo = filesStorageService.findById(primaryKey);
-		if(fileInfo == null) {
-			throw new CustomFileException(ErrorMessage.PRIMARY_KEY_NOT_FOUND);
-		}
 		return ResponseEntity.status(HttpStatus.OK).body(fileInfo);
 	}
 
@@ -58,11 +55,7 @@ public class FileController {
 	@ResponseBody
 	public ResponseEntity<ResponseMessage> deleteRecordById(@PathVariable String primaryKey) {
 		String message="";
-		try{
-			filesStorageService.deleteById(primaryKey);
-		} catch (Exception ex) {
-			throw new CustomFileException(ex.getMessage());
-		}
+		filesStorageService.deleteById(primaryKey);
 		message = "Record deleted Successfully ";
 		return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
 	}

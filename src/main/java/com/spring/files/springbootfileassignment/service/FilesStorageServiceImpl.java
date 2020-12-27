@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.spring.files.springbootfileassignment.exception.CustomFileException;
 import com.spring.files.springbootfileassignment.model.FileInfo;
 import com.spring.files.springbootfileassignment.repository.FileRepository;
+import com.spring.files.springbootfileassignment.utils.ErrorMessage;
 
 @Service
 public class FilesStorageServiceImpl implements FilesStorageService {
@@ -44,12 +46,19 @@ public class FilesStorageServiceImpl implements FilesStorageService {
 		Optional<FileInfo> optional = fileRepository.findById(primaryKey);
 		if (optional.isPresent()) {
 			fileObj = optional.get();
+		} else {
+			throw new CustomFileException(ErrorMessage.PRIMARY_KEY_NOT_FOUND);
 		}
 		return fileObj;
 	}
 
 	@Override
 	public void deleteById(String primaryKey) {
-		fileRepository.deleteById(primaryKey);
+		try {
+			fileRepository.deleteById(primaryKey);
+		} catch (Exception ex) {
+			throw new CustomFileException(ex.getMessage());
+		}
+		
 	}
 }
